@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:chattrix_app/repository/connect_repository/base_connect.dart';
 import 'package:meta/meta.dart';
+import '../../repository/connect_repository/base_connect.dart';
 
 part 'chat_cubit_state.dart';
 

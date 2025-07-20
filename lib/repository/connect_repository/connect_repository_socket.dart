@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:chattrix_app/repository/connect_repository/base_connect.dart';
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
+import 'base_connect.dart';
 
 class SoketiConnect implements ConnectRepository {
   @override

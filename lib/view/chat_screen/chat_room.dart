@@ -1,5 +1,5 @@
-import 'package:chattrix_app/bloc/chat_connect/chat_cubit_cubit.dart';
-import 'package:chattrix_app/repository/connect_repository/connect.dart';
+import 'package:akunku/bloc/chat_connect/chat_cubit_cubit.dart';
+import 'package:akunku/repository/connect_repository/connect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +10,7 @@ class ChatRoomProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ConnectRepository connectRepository = SoketiConnect();
+    final SoketiConnect connectRepository = SoketiConnect();
 
     return RepositoryProvider.value(
       value: connectRepository,

@@ -1,4 +1,4 @@
-name: chattrix_app
+name: akunku
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -66,8 +66,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+     - Asset/icons/
+     - Asset/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -81,15 +82,22 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+  fonts:
+    - family: DM Sans Light
+      fonts:
+       - asset: Asset/fonts/DM-Sans/DM-Sans-Light.ttf
+  #       
+    - family: DM Sans Bold
+      fonts:
+        - asset: Asset/fonts/DM-Sans/DMSans_18pt-Bold.ttf
+
+    - family: DM Sans Semibold
+      fonts:
+        - asset: Asset/fonts/DM-Sans/DMSans_18pt-Semibold.ttf
+
+    - family: DM Sans Regular
+      fonts:
+        - asset: Asset/fonts/DM-Sans/DMSans_18pt-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

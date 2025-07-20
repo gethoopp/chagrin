@@ -1,4 +1,4 @@
-package com.example.chattrix_app
+package com.android.akunku_app
 
 import io.flutter.embedding.android.FlutterActivity
 

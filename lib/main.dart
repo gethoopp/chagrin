@@ -1,4 +1,6 @@
-import 'package:chattrix_app/view/chat_room.dart';
+import 'package:akunku/compound/routes.dart';
+import 'package:akunku/view/Auth/login.dart';
+import 'package:akunku/view/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,14 +14,14 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(360, 690),
+      designSize: const Size(393, 852),
       minTextAdapt: true,
-      splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+          initialRoute: '/',
+          routes: {Routes.loginScreen: (context) => LoginScreenAuth()},
           debugShowCheckedModeBanner: false,
-          theme: ThemeData.dark(),
-          home: ChatRoomProvider(),
+          home: Scaffold(resizeToAvoidBottomInset: false, body: SplashScreen()),
         );
       },
     );
