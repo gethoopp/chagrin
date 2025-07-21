@@ -1,4 +1,4 @@
-import 'package:akunku/model/auth/auth.dart';
+import 'package:akunku/model/common.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 

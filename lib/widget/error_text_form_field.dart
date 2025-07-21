@@ -11,14 +11,14 @@ class ErrorTextFormField extends StatelessWidget {
   int? lengthText;
 
   ErrorTextFormField({
-    Key? key,
+    super.key,
     this.error,
     this.lengthText,
     this.showIcon = true,
     this.iconSize = 26,
     this.fontSize = 13,
     this.marginTop = 0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

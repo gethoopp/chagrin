@@ -1,5 +1,5 @@
-import 'package:akunku/constant/url.dart';
-import 'package:akunku/repository/auth_repository/base_auth.dart';
+import 'package:akunku/constant/constant.dart';
+import 'package:akunku/repository/auth_repository/auth.dart';
 import 'package:dio/dio.dart';
 
 class AuthenticationBase implements AuthRepository {

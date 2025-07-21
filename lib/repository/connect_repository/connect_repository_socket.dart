@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
-import 'base_connect.dart';
+import 'connect.dart';
 
 class SoketiConnect implements ConnectRepository {
   @override

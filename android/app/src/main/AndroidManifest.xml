@@ -2,7 +2,7 @@
     <application
         android:label="AkunKu"
         android:name="${applicationName}"
-        android:icon="@mipmap/logo_fix">
+        android:icon="@mipmap/akun_fix">
         <activity
             android:name=".MainActivity"
             android:exported="true"

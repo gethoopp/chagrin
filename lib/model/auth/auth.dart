@@ -1,4 +1,4 @@
-import '../common/common.dart';
+import '../common.dart';
 
 class LoginFormData extends BaseModel {
   final String? email;
