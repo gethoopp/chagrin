@@ -122,6 +122,7 @@ Widget buildPasswordField({
   // required TextEditingController controller,
   required bool isPassowrdVisible,
   void Function(String)? onChanged,
+  required void Function()? onPressed,
 }) {
   return StatefulBuilder(
     builder: (BuildContext, setState) {
@@ -163,11 +164,13 @@ Widget buildPasswordField({
                 icon: Icon(
                   isPassowrdVisible ? Icons.visibility : Icons.visibility_off,
                 ),
-                onPressed: () {
-                  setState(() {
-                    isPassowrdVisible = !isPassowrdVisible;
-                  });
-                },
+                onPressed:
+                    onPressed ??
+                    () {
+                      setState(() {
+                        isPassowrdVisible = !isPassowrdVisible;
+                      });
+                    },
               ),
             ),
           ),

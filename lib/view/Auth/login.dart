@@ -1,19 +1,21 @@
 import 'dart:io';
 
 import 'package:akunku/bloc/Auth/auth_cubit.dart';
-import 'package:akunku/compound/asset.dart';
 import 'package:akunku/extension/string_validate.dart';
+import 'package:akunku/compound/compound.dart';
 
-import 'package:akunku/model/auth/auth.dart';
-import 'package:akunku/model/common/common.dart';
+import 'package:akunku/model/common.dart';
 import 'package:akunku/repository/auth_repository/auth.dart';
 import 'package:akunku/widget/base_widget.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../bloc/auth_form/auth_form_cubit.dart';
 
+@RoutePage()
 class LoginScreenAuth extends StatelessWidget {
   const LoginScreenAuth({super.key});
 
@@ -61,18 +63,10 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is AuthSucces) {
           debugPrint("Yess berhasil login!!!");
         }
-
-        if (state is AuthError) {
-          return showAutoCloseDialog(context, state.message);
-        }
       },
       child: Scaffold(
         body: Stack(
-          children: [
-            _buildHeaderBackground(),
-            _buildAppBar(),
-            _buildLoginForm(size),
-          ],
+          children: [_buildHeaderBackground(), _buildLoginForm(size)],
         ),
       ),
     );
@@ -90,26 +84,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Widget untuk AppBar
-  Widget _buildAppBar() {
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      child: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-    );
-  }
-
-  // Widget untuk Form Login
   Widget _buildLoginForm(Size size) {
     return BlocBuilder<AuthFormCubit, AuthFormState<LoginFormData>>(
       builder: (context, stateLogin) {
@@ -121,9 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: IntrinsicHeight(
                   child: Column(
                     children: [
-                      const Spacer(
-                        flex: 2,
-                      ), // Spacer untuk mendorong konten ke bawah
+                      const Spacer(flex: 2),
                       Expanded(
                         flex: 8,
                         child: Container(
@@ -176,6 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         );
                                   },
                                   isPassowrdVisible: _isPasswordVisible,
+                                  onPressed: () {},
                                 ),
                                 ErrorTextFormField(
                                   error: stateLogin
@@ -279,6 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   width: 20,
                                                   child:
                                                       CircularProgressIndicator(
+                                                        color: Colors.blue,
                                                         strokeWidth: 2,
                                                       ),
                                                 )
@@ -310,6 +284,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                               fontWeight: FontWeight.w200,
                                               color: Colors.blue,
                                             ),
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                context.router.push(
+                                                  ResgisteRoute(),
+                                                );
+                                              },
                                           ),
                                         ],
                                       ),

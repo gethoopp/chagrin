@@ -15,7 +15,6 @@ class AuthCubit extends Cubit<AuthState> {
       final result = await authRepository.loginUser(email, password, device);
       emit(AuthSucces(result));
     } catch (e) {
-      debugPrint("ini isi error ${e.toString()}");
       emit(AuthError(e.toString().replaceFirst('Exception: ', '')));
     }
   }

@@ -10,6 +10,7 @@ sealed class AuthFormState<T> extends Equatable {
 }
 
 final class AuthFormInitial<T> extends AuthFormState<T> {
+  @override
   final T data;
 
   const AuthFormInitial(this.data) : super(data: data);
