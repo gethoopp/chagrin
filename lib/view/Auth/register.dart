@@ -25,7 +25,8 @@ class RegisterAccountScreen extends StatefulWidget {
 class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
-  final bool _isChecked = false;
+  bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +105,14 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                   ),
                   const SizedBox(height: 24),
 
-                  _buildTermsAndConditions(_isChecked),
+                  _buildTermsAndConditions(
+                    isChecked: isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isChecked = !isChecked;
+                      });
+                    },
+                  ),
                   const SizedBox(height: 32),
 
                   SizedBox(
@@ -214,59 +222,54 @@ Widget _buildPhoneField() {
   );
 }
 
-Widget _buildTermsAndConditions(bool? isChecked) {
-  return StatefulBuilder(
-    builder: (BuildContext, setState) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 24,
-            width: 24,
-            child: Checkbox(
-              value: isChecked,
-              onChanged: (bool? value) {
-                setState(() {
-                  isChecked = value ?? false;
-                });
-              },
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+Widget _buildTermsAndConditions({
+  required void Function(bool?)? onChanged,
+  bool? isChecked,
+}) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      SizedBox(
+        height: 24,
+        width: 24,
+        child: Checkbox(
+          value: isChecked,
+          onChanged: onChanged,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+      ),
+      const SizedBox(width: 12),
+      Expanded(
+        child: RichText(
+          text: TextSpan(
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.black54,
+              fontFamily: 'Inter', // Sesuaikan dengan font project Anda
             ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: RichText(
-              text: TextSpan(
+            children: [
+              const TextSpan(text: 'Dengan mendaftar, saya menyetujui '),
+              TextSpan(
+                text: 'Syarat dan Ketentuan Akunmu',
                 style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black54,
-                  fontFamily: 'Inter', // Sesuaikan dengan font project Anda
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
                 ),
-                children: [
-                  const TextSpan(text: 'Dengan mendaftar, saya menyetujui '),
-                  TextSpan(
-                    text: 'Syarat dan Ketentuan Akunmu',
-                    style: const TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    recognizer: TapGestureRecognizer()..onTap = () {},
-                  ),
-                  const TextSpan(text: ' serta '),
-                  TextSpan(
-                    text: 'Kebijakan Privasi',
-                    style: const TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    recognizer: TapGestureRecognizer()..onTap = () {},
-                  ),
-                ],
+                recognizer: TapGestureRecognizer()..onTap = () {},
               ),
-            ),
+              const TextSpan(text: ' serta '),
+              TextSpan(
+                text: 'Kebijakan Privasi',
+                style: const TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+                recognizer: TapGestureRecognizer()..onTap = () {},
+              ),
+            ],
           ),
-        ],
-      );
-    },
+        ),
+      ),
+    ],
   );
 }
