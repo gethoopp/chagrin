@@ -29,10 +29,7 @@ final class AuthErrorState<T> extends AuthFormState<T> {
 }
 
 final class AuthFormSuccess<T> extends AuthFormState<T> {
-  @override
-  final T data;
-
-  const AuthFormSuccess(this.data) : super(data: data);
+  const AuthFormSuccess(T? data) : super(data: data);
 
   @override
   List<Object?> get props => [data];

@@ -1,4 +1,5 @@
 import 'package:akunku/constant/constant.dart';
+import 'package:akunku/model/common.dart';
 import 'package:akunku/repository/auth_repository/auth.dart';
 import 'package:dio/dio.dart';
 
@@ -17,7 +18,7 @@ class AuthenticationBase implements AuthRepository {
   );
 
   @override
-  Future<dynamic> loginUser(
+  Future<ProfieUser> loginUser(
     String email,
     String password,
     String device,
@@ -29,7 +30,7 @@ class AuthenticationBase implements AuthRepository {
       );
 
       if (response.statusCode == 200) {
-        return response.data;
+        return ProfieUser.fromJson(response.data);
       } else {
         throw Exception(response.data["message"] ?? "Login gagal");
       }
@@ -43,5 +44,38 @@ class AuthenticationBase implements AuthRepository {
   }
 
   @override
-  Future<dynamic> registerUser() async {}
+  Future<dynamic> registerUser(
+    String usename,
+    String email,
+    String password,
+    String passwordConfirm,
+    String prefixNumber,
+    String number,
+  ) async {
+    try {
+      final response = await dio.post(
+        Url.urlRegister,
+        data: {
+          "name": usename,
+          "email": email,
+          "password": password,
+          "password_confirmation": passwordConfirm,
+          "prefix_whatsapp_number": prefixNumber,
+          "phone_num": number,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw Exception(response.data);
+      }
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.data["message"] ?? "Terjadi kesalahan koneksi",
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

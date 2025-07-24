@@ -22,6 +22,6 @@ class AuthError extends AuthState {
 final class AuthLoading extends AuthState {}
 
 final class AuthSucces extends AuthState {
-  final dynamic data;
+  final ProfieUser data;
   const AuthSucces(this.data);
 }

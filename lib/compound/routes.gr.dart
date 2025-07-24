@@ -28,18 +28,49 @@ class LoginRouteRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [ResgisteAuth]
-class ResgisteRoute extends PageRouteInfo<void> {
-  const ResgisteRoute({List<PageRouteInfo>? children})
-    : super(ResgisteRoute.name, initialChildren: children);
+class ResgisteRoute extends PageRouteInfo<ResgisteRouteArgs> {
+  ResgisteRoute({
+    Key? key,
+    required AuthRepository authRepository,
+    List<PageRouteInfo>? children,
+  }) : super(
+         ResgisteRoute.name,
+         args: ResgisteRouteArgs(key: key, authRepository: authRepository),
+         initialChildren: children,
+       );
 
   static const String name = 'ResgisteRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const ResgisteAuth();
+      final args = data.argsAs<ResgisteRouteArgs>();
+      return ResgisteAuth(key: args.key, authRepository: args.authRepository);
     },
   );
+}
+
+class ResgisteRouteArgs {
+  const ResgisteRouteArgs({this.key, required this.authRepository});
+
+  final Key? key;
+
+  final AuthRepository authRepository;
+
+  @override
+  String toString() {
+    return 'ResgisteRouteArgs{key: $key, authRepository: $authRepository}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ResgisteRouteArgs) return false;
+    return key == other.key && authRepository == other.authRepository;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ authRepository.hashCode;
 }
 
 /// generated route for

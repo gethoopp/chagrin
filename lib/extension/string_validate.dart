@@ -4,9 +4,9 @@ extension StringValidate on String? {
       return null;
     }
 
-    // if (this!.isEmpty) {
-    //   return "Email tidak boleh kosong";
-    // }
+    if (this!.isEmpty) {
+      return "Email tidak boleh kosong";
+    }
     if (!RegExp(
       r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
     ).hasMatch(this!)) {
@@ -24,20 +24,26 @@ extension StringValidate on String? {
     if (this == null) {
       return null;
     }
-
-    // Uncomment the following lines to check for empty password
-    // if (this!.isEmpty) {
-    //   return "Password tidak boleh kosong";
-    // }
-
-    if (this!.length < 5) {
+    if (this!.length < 6) {
       return "Password harus lebih dari 5 karakter";
     }
-
     return null;
   }
 
-  String? validateFirstName(int? minLength, int? maxLength) {
+  String? validatePasswordCheck(String? originalPassword) {
+    if (this == null) {
+      return null;
+    }
+    if (this!.length < 6) {
+      return "Password harus lebih dari 5 karakter";
+    }
+    if (this != originalPassword) {
+      return "Password tidak sama";
+    }
+    return null;
+  }
+
+  String? getvalidateFirstName(int? minLength, int? maxLength) {
     if (this == null) {
       return null;
     }
@@ -98,6 +104,38 @@ extension StringValidate on String? {
     }
     if (this!.contains(RegExp(r'^[!@#\$%^&*(),.?":{}|<>]'))) {
       return "Nama Pengguna tidak boleh diawali dengan simbol";
+    }
+
+    return null;
+  }
+
+  String? validatePhoneNumber(int maxLength) {
+    if (this == null) {
+      return null;
+    }
+
+    if (this!.length <= 9) {
+      return "Nomor harus lebih dari 9 karakter";
+    }
+
+    if (this!.isEmpty) {
+      return "Nomor tidak boleh kosong";
+    }
+
+    if (!this!.startsWith('8')) {
+      return "Nomor harus diawali angka 8";
+    }
+
+    if (this!.length > maxLength) {
+      return "Maksimal 12 karakter";
+    }
+
+    return null;
+  }
+
+  String? get validatePhoneNumberPrefix {
+    if (this == null) {
+      return null;
     }
 
     return null;

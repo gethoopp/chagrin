@@ -47,8 +47,13 @@ dependencies:
   meta: ^1.16.0
   bloc: ^9.0.0
 
+  #Ui
+  country_picker:
+
   #routing management
   auto_route: ^10.1.0+1
+  flutter_localizations:
+    sdk: flutter
  
 
 dev_dependencies:

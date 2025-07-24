@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:akunku/bloc/Auth/auth_cubit.dart';
+import 'package:akunku/bloc/Auth/login/auth_cubit.dart';
 import 'package:akunku/extension/string_validate.dart';
 import 'package:akunku/compound/compound.dart';
 
@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../bloc/auth_form/auth_form_cubit.dart';
+import '../../bloc/auth_form/login_form/auth_form_cubit.dart';
 
 @RoutePage()
 class LoginScreenAuth extends StatelessWidget {
@@ -30,14 +30,15 @@ class LoginScreenAuth extends StatelessWidget {
           BlocProvider(create: (context) => AuthCubit(authRepository)),
           BlocProvider(create: (context) => AuthFormCubit()),
         ],
-        child: LoginScreen(),
+        child: LoginScreen(authRepository: authRepository),
       ),
     );
   }
 }
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final AuthRepository? authRepository;
+  const LoginScreen({super.key, this.authRepository});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -45,15 +46,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final bool _isPasswordVisible = false;
-  TextEditingController emailContoller = TextEditingController();
-  TextEditingController passContoller = TextEditingController();
-
-  @override
-  void dispose() {
-    emailContoller.clear();
-    passContoller.clear();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +53,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSucces) {
-          debugPrint("Yess berhasil login!!!");
+          final data = state.data;
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(data.message!)));
         }
       },
       child: Scaffold(
@@ -148,7 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         );
                                   },
                                   isPassowrdVisible: _isPasswordVisible,
-                                  onPressed: () {},
                                 ),
                                 ErrorTextFormField(
                                   error: stateLogin
@@ -262,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     );
                                   },
                                 ),
-                                SizedBox(height: 10.h),
+                                SizedBox(height: 15.h),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -287,7 +281,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 context.router.push(
-                                                  ResgisteRoute(),
+                                                  ResgisteRoute(
+                                                    authRepository:
+                                                        widget.authRepository!,
+                                                  ),
                                                 );
                                               },
                                           ),

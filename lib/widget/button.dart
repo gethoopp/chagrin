@@ -1,5 +1,5 @@
-import 'package:akunku/extension/string_validate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Widget buttonLogin(
@@ -61,6 +61,7 @@ SizedBox buttonLoginTap(
 
             style: TextStyle(
               color: textColor,
+              fontSize: 15.sp,
               fontFamily: "DM Sans Regular",
               fontWeight: FontWeight.w300,
             ),
@@ -75,6 +76,8 @@ Widget buildTextField({
   required String label,
   required String hint,
   void Function(String)? onChanged,
+  bool isHaseror = false,
+  TextInputType? keyboardType,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,9 +92,8 @@ Widget buildTextField({
       ),
       const SizedBox(height: 8),
       TextFormField(
-        // controller: controller,
         onChanged: onChanged,
-        validator: (value) => value.validateEmail,
+        keyboardType: keyboardType,
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(
@@ -109,7 +111,17 @@ Widget buildTextField({
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.blueAccent),
+            borderSide: BorderSide(
+              color: isHaseror ? Colors.red : Colors.blueAccent,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: isHaseror ? Colors.red : Colors.grey),
           ),
         ),
       ),
@@ -121,8 +133,9 @@ Widget buildTextField({
 Widget buildPasswordField({
   // required TextEditingController controller,
   required bool isPassowrdVisible,
+  bool isHaseror = false,
   void Function(String)? onChanged,
-  required void Function()? onPressed,
+  void Function()? onPressed,
 }) {
   return StatefulBuilder(
     builder: (BuildContext, setState) {
@@ -140,7 +153,6 @@ Widget buildPasswordField({
           const SizedBox(height: 8),
           TextFormField(
             onChanged: onChanged,
-
             obscureText: !isPassowrdVisible,
             decoration: InputDecoration(
               hintText: 'Masukkan kata sandi kamu',
@@ -158,10 +170,13 @@ Widget buildPasswordField({
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.blueAccent),
+                borderSide: BorderSide(
+                  color: isHaseror ? Colors.red : Colors.blueAccent,
+                ),
               ),
               suffixIcon: IconButton(
                 icon: Icon(
+                  size: 20,
                   isPassowrdVisible ? Icons.visibility : Icons.visibility_off,
                 ),
                 onPressed:
@@ -177,5 +192,18 @@ Widget buildPasswordField({
         ],
       );
     },
+  );
+}
+
+Widget radioButtonCheck({required bool isChecked, void Function()? onTap}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: isChecked
+        ? Icon(Icons.check_circle, size: 25.0, color: Colors.blue)
+        : Icon(
+            Icons.circle_outlined,
+            size: 25.0,
+            color: const Color(0xffE5E7EB),
+          ),
   );
 }
