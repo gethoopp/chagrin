@@ -109,7 +109,7 @@ extension StringValidate on String? {
     return null;
   }
 
-  String? validatePhoneNumber(int maxLength) {
+  String? validatePhoneNumber(int maxLength, String phoneCode) {
     if (this == null) {
       return null;
     }
@@ -122,7 +122,7 @@ extension StringValidate on String? {
       return "Nomor tidak boleh kosong";
     }
 
-    if (!this!.startsWith('8')) {
+    if (!this!.startsWith('8') && phoneCode == '62') {
       return "Nomor harus diawali angka 8";
     }
 

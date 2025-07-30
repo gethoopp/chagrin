@@ -36,8 +36,8 @@ class RegisterFormCubit extends Cubit<RegisterFormState<RegisterData>> {
     emit(RegisterFormSucces(latestFormData));
   }
 
-  void onChangeNumberPhonePrefix(RegisterData latestFormData, String phone) {
-    latestFormData = latestFormData.copyWith(prefixNumber: phone);
-    emit(RegisterFormSucces(latestFormData));
+  void onChangeNumberPhonePrefix(String prefix) {
+    final currentData = state.data!.copyWith(prefixNumber: prefix);
+    emit(RegisterFormSucces(currentData));
   }
 }

@@ -4,6 +4,7 @@ import 'package:akunku/extension/string_validate.dart';
 import 'package:akunku/model/common.dart';
 import 'package:akunku/repository/auth_repository/base_auth.dart';
 import 'package:akunku/widget/base_widget.dart';
+import 'package:akunku/widget/showtoast.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/gestures.dart';
@@ -43,13 +44,33 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   bool isChecked = false;
+  String? messageError;
+  Country selectedCountry = Country(
+    phoneCode: '62',
+    countryCode: 'ID',
+    e164Sc: 0,
+    geographic: true,
+    level: 1,
+    name: 'Indonesia',
+    example: '812345678',
+    displayName: 'Indonesia',
+    displayNameNoCountryCode: 'Indonesia',
+    e164Key: '',
+  );
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocListener<RegisterCubit, RegisterState>(
-      listener: (context, state) {},
+      listener: (context, registerDataState) {
+        if (registerDataState is RegisterErr) {
+          setState(() {
+            messageError = registerDataState.message;
+          });
+        }
+      },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.blue,
         body: CustomScrollView(
           slivers: [
@@ -138,24 +159,37 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                                   );
                             });
                           },
-
+                          selectedCountry: selectedCountry,
                           isHaseror:
                               stateRaegister.data!.numberPhone
-                                  .validatePhoneNumber(12)
+                                  .validatePhoneNumber(
+                                    12,
+                                    selectedCountry.phoneCode,
+                                  )
                                   ?.isNotEmpty ??
                               false,
+                          onSelect: (Country country) {
+                            setState(() {
+                              selectedCountry = country;
+                            });
+                          },
                         ),
 
                         ErrorTextFormField(
                           error: stateRaegister.data!.numberPhone
-                              .validatePhoneNumber(12),
+                              .validatePhoneNumber(
+                                12,
+                                selectedCountry.phoneCode,
+                              ),
                         ),
                         const SizedBox(height: 16),
                         buildTextField(
                           label: 'Email',
                           hint: 'Masukkan email kamu',
                           onChanged: (value) {
+                            context.read<RegisterCubit>().resetState();
                             setState(() {
+                              messageError = null;
                               context.read<RegisterFormCubit>().onChangeEmail(
                                 stateRaegister.data!,
                                 value,
@@ -171,7 +205,9 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                               false,
                         ),
                         ErrorTextFormField(
-                          error: stateRaegister.data!.email.validateEmail,
+                          error:
+                              stateRaegister.data!.email.validateEmail ??
+                              messageError,
                         ),
                         const SizedBox(height: 16),
                         buildPasswordField(
@@ -253,16 +289,17 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
 
                         BlocConsumer<RegisterCubit, RegisterState>(
                           listener: (context, state) {
-                            if (state is RegisterErr) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(state.message)),
-                              );
-                            }
-
                             if (state is RegisterSucces) {
                               final data = state.data;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(data["message"]!)),
+                              showCustomToast(
+                                context,
+                                data["message"],
+                                Colors.greenAccent,
+                              );
+                              context.pushRoute(
+                                OtpRouteRegister(
+                                  email: stateRaegister.data!.email,
+                                ),
                               );
                             }
                           },
@@ -275,8 +312,8 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                               selector: (state) => FormFieldData(
                                 validate: [
                                   state.data!.username,
-                                  "+62",
-
+                                  selectedCountry.phoneCode,
+                                  state.data!.numberPhone,
                                   state.data!.email,
                                   state.data!.password,
                                   state.data!.checkPassword,
@@ -288,18 +325,19 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                                   ),
                                   state.data!.numberPhone.validatePhoneNumber(
                                     12,
+                                    selectedCountry.phoneCode,
                                   ),
                                   state
                                       .data!
                                       .prefixNumber
                                       .validatePhoneNumberPrefix,
                                   state.data!.email.validateEmail,
-
                                   state.data!.password.validatePassword,
                                   state.data!.checkPassword
                                       .validatePasswordCheck(
                                         state.data!.password,
                                       ),
+                                  isChecked,
                                 ],
                               ),
                               builder: (context, validateState) {
@@ -311,21 +349,20 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                                         ? ""
                                         : context
                                               .read<RegisterCubit>()
-                                              .RegisterUser(
+                                              .registerUser(
                                                 stateRaegister.data!.username!,
                                                 stateRaegister.data!.email!,
                                                 stateRaegister.data!.password!,
                                                 stateRaegister
                                                     .data!
                                                     .checkPassword!,
-                                                '+62',
+                                                selectedCountry.phoneCode,
                                                 stateRaegister
                                                     .data!
                                                     .numberPhone!,
                                               );
                                   },
                                   size,
-
                                   text: isLoading ? "" : "Daftar",
 
                                   colorbtn:
@@ -377,6 +414,10 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                                     color: Colors.blue,
                                     fontWeight: FontWeight.bold,
                                   ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      context.replaceRoute(LoginRouteRoute());
+                                    },
                                 ),
                               ],
                             ),
@@ -399,20 +440,9 @@ Widget _buildPhoneField(
   BuildContext context, {
   void Function(String)? onChanged,
   bool isHaseror = false,
-  RegisterData? latestFormData,
+  required Country selectedCountry,
+  required void Function(Country) onSelect,
 }) {
-  Country selectedCountry = Country(
-    phoneCode: '62',
-    countryCode: 'ID',
-    e164Sc: 0,
-    geographic: true,
-    level: 1,
-    name: 'Indonesia',
-    example: '812345678',
-    displayName: 'Indonesia',
-    displayNameNoCountryCode: 'Indonesia',
-    e164Key: '',
-  );
   return StatefulBuilder(
     builder: (context, setState) {
       return Column(
@@ -444,17 +474,7 @@ Widget _buildPhoneField(
                         ),
                       ),
                     ),
-                    onSelect: (Country country) {
-                      setState(() {
-                        selectedCountry = country;
-                        context
-                            .read<RegisterFormCubit>()
-                            .onChangeNumberPhonePrefix(
-                              latestFormData!,
-                              selectedCountry.countryCode,
-                            );
-                      });
-                    },
+                    onSelect: onSelect,
                   );
                 },
                 child: Container(

@@ -27,6 +27,53 @@ class LoginRouteRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [OtpScreenRegister]
+class OtpRouteRegister extends PageRouteInfo<OtpRouteRegisterArgs> {
+  OtpRouteRegister({
+    required String? email,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+         OtpRouteRegister.name,
+         args: OtpRouteRegisterArgs(email: email, key: key),
+         initialChildren: children,
+       );
+
+  static const String name = 'OtpRouteRegister';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<OtpRouteRegisterArgs>();
+      return OtpScreenRegister(args.email, key: args.key);
+    },
+  );
+}
+
+class OtpRouteRegisterArgs {
+  const OtpRouteRegisterArgs({this.email, this.key});
+
+  final String? email;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'OtpRouteRegisterArgs{email: $email, key: $key}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! OtpRouteRegisterArgs) return false;
+    return email == other.email && key == other.key;
+  }
+
+  @override
+  int get hashCode => email.hashCode ^ key.hashCode;
+}
+
+/// generated route for
 /// [ResgisteAuth]
 class ResgisteRoute extends PageRouteInfo<ResgisteRouteArgs> {
   ResgisteRoute({

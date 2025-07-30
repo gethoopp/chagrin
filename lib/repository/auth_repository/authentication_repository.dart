@@ -68,11 +68,11 @@ class AuthenticationBase implements AuthRepository {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw Exception(response.data);
+        throw Exception(response.data["errors"]["email"][0]);
       }
     } on DioException catch (e) {
       throw Exception(
-        e.response?.data["message"] ?? "Terjadi kesalahan koneksi",
+        e.response?.data["errors"]["email"][0] ?? "Terjadi kesalahan koneksi",
       );
     } catch (e) {
       rethrow;

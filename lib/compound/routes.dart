@@ -1,7 +1,8 @@
 import 'package:akunku/repository/auth_repository/base_auth.dart';
+import 'package:akunku/view/otp/otp_screen.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:akunku/view/Auth/login.dart';
-import 'package:akunku/view/Auth/register.dart';
+import 'package:akunku/view/Auth/login_screen.dart';
+import 'package:akunku/view/Auth/register_screen.dart';
 import 'package:akunku/view/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,12 @@ class AppRouter extends RootStackRouter {
     ),
     CustomRoute(
       page: ResgisteRoute.page,
-      transitionsBuilder: TransitionsBuilders.slideRight,
+      transitionsBuilder: TransitionsBuilders.fadeIn,
+    ),
+
+    CustomRoute(
+      page: OtpRouteRegister.page,
+      transitionsBuilder: TransitionsBuilders.fadeIn,
     ),
   ];
 }
