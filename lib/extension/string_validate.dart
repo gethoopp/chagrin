@@ -140,4 +140,15 @@ extension StringValidate on String? {
 
     return null;
   }
+
+  String? get validateOtpNumber {
+    if (this == null) {
+      return null;
+    }
+
+    if (this!.length < 6) {
+      return "Masukkan kode dengan benar";
+    }
+    return null;
+  }
 }

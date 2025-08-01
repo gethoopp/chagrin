@@ -17,6 +17,5 @@ class LoginFormData extends BaseModel {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [email, password, securePassword];
 }

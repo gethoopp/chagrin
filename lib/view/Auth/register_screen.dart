@@ -290,12 +290,6 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                         BlocConsumer<RegisterCubit, RegisterState>(
                           listener: (context, state) {
                             if (state is RegisterSucces) {
-                              final data = state.data;
-                              showCustomToast(
-                                context,
-                                data["message"],
-                                Colors.greenAccent,
-                              );
                               context.pushRoute(
                                 OtpRouteRegister(
                                   email: stateRaegister.data!.email,

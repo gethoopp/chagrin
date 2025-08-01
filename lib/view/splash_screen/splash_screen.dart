@@ -17,7 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return; // Pastikan widget masih aktif
-      context.replaceRoute(OtpRouteRegister(email: ''));
+      // context.replaceRoute(OtpRouteRegister(email: ''));
+      context.replaceRoute(LoginRouteRoute());
     });
   }
 
